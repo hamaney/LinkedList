@@ -7,7 +7,7 @@ class LinkedList : public ::testing::Test {
   virtual void SetUp() {}
   virtual void TearDown() {}
 
-  DLinkedList* test_list = CreateDLinkedList();
+ // DLinkedList* test_list = CreateDLinkedList();
 };
 // Tesing list / node creation
-TEST_F(LinkedList, CreatingList) {}
+TEST_F(LinkedList, CreatingList) {ASSERT_EQ(0,0);}

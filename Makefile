@@ -1,9 +1,6 @@
 ################################################################################
 OUTPUT_NAME		:=output
 EXEC_EXT		:=
-#HEADER_EXT		:=.h
-SRC_EXT			:=.c
-HEADER_C_EXT		:=.h
 OBJ_EXT			:=.o
 LIB_STAT_EXT		:=.a
 
@@ -15,7 +12,6 @@ GT_SRC_EXT		:=.cc
 	
 UT_SRC_EXT		:=.cc
 #------------------------------------------------------------------ DIRECTORIES-
-
 #-------------------------------------------------------- PROJ dirs
 PROJ_ROOT_DIR        	:=.
 PROJ_HEADERS_ROOT_DIR	:=include
@@ -139,7 +135,7 @@ test: $(UT_FILES_BASENAME)
 .PHONY : testvar 
 testvar:	
 	@echo $(GT_INCLUDE_FILES_WITH_DIR)
-# Run ===============================================================
+# Run ---------------------------------------------------------------
 .PHONY: run
 run:
 	$(PROJ_EXEC_ROOT_DIR)/$(OUTPUT_NAME);$(PROJ_EXEC_ROOT_DIR)/$(UT_FILES_BASENAME)
@@ -151,7 +147,7 @@ runapp:
 .PHONY: runtest
 runtest:
 	$(PROJ_EXEC_ROOT_DIR)/$(UT_FILES_BASENAME)
-# Clean ============================================================= 
+# Clean -------------------------------------------------------------
 .PHONY : clean
 clean:	
 	rm -f -r $(PROJ_OBJS_ROOT_DIR)
@@ -199,7 +195,7 @@ $(UT_FILES_BASENAME):$(UT_OBJ_FILES) $(UT_PROJ_OBJ_FILES) gtest_main.a
 	@echo -------------------------------------------------------------DONE-
 
 # --------------------------------------------- OBJ Buliding Patterns
-%$(OBJ_EXT):%$(SRC_EXT)
+%$(OBJ_EXT):%$(PROJ_SRC_EXT)
 	@echo ---* PRO_OBJ $@ *-------------------------------------------------
 	mkdir -p $(PROJ_OBJS_ROOT_DIR)
 	$(PROJ_CXX) $(PROJ_CXX_FLAGS) $(ML_CXX_FLAGS) -c $< -o $(PROJ_OBJS_ROOT_DIR)/$@
