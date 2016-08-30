@@ -8,7 +8,7 @@
 
 #include "include/linked_list.h"
 
-DLinkedList *CreateDlinkedList(void) {
+DLinkedList *CreateDLinkedList(void) {
   DLinkedList *new_list = (DLinkedList *)malloc(sizeof(DLinkedList));
 
   if (!new_list) {
@@ -36,6 +36,7 @@ DNode *CreateDNode(void) {
   new_DNode->data = 0;
   return new_DNode;
 }
+
 
 DNode *AddDnode(DLinkedList *list) {
   // Check if input is null

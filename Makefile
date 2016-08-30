@@ -134,7 +134,7 @@ test: $(UT_FILES_BASENAME)
 
 .PHONY : testvar 
 testvar:	
-	@echo $(GT_INCLUDE_FILES_WITH_DIR)
+	@echo $(PROJ_OBJS_ROOT_DIR)
 # Run ---------------------------------------------------------------
 .PHONY: run
 run:
@@ -177,10 +177,12 @@ gtest_main.o :
 gtest.a : gtest-all.o
 	mkdir -p $(PROJ_LIBS_ROOT_DIR)
 	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)	
+	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
 
 gtest_main.a : gtest-all.o gtest_main.o
 	mkdir -p $(PROJ_LIBS_ROOT_DIR)
 	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)	
+	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
 
 # ------------------------------------------------------ Proj Linking
 $(OUTPUT_NAME):$(PROJ_OBJ_FILES)
@@ -198,13 +200,13 @@ $(UT_FILES_BASENAME):$(UT_OBJ_FILES) $(UT_PROJ_OBJ_FILES) gtest_main.a
 %$(OBJ_EXT):%$(PROJ_SRC_EXT)
 	@echo ---* PRO_OBJ $@ *-------------------------------------------------
 	mkdir -p $(PROJ_OBJS_ROOT_DIR)
-	$(PROJ_CXX) $(PROJ_CXX_FLAGS) $(ML_CXX_FLAGS) -c $< -o $(PROJ_OBJS_ROOT_DIR)/$@
+	$(PROJ_CXX) $(PROJ_CXX_FLAGS) -c $< -o $(PROJ_OBJS_ROOT_DIR)/$@
 	@echo ------------------------------------------------------------------ 
 
 # ---------------------------------------------- UT Buliding Patterns
 $(UT_OBJ_FILES):%$(OBJ_EXT):%$(GT_SRC_EXT)
 	@echo ---* UT_PRO_OBJ $@ *---------------------------------------------- 
 	mkdir -p $(PROJ_OBJS_ROOT_DIR)
-	$(PROJ_CXX) $(PROJ_CXX_FLAGS) $(ML_CXX_FLAGS) $(GT_CXX_FLAGS) $(GT_INCLUDE_FLAGS)\
+	$(PROJ_CXX) $(PROJ_CXX_FLAGS) $(GT_CXX_FLAGS) $(GT_INCLUDE_FLAGS)\
 	-c $< -o $(PROJ_OBJS_ROOT_DIR)/$@
 	@echo ------------------------------------------------------------------ 
