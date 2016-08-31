@@ -8,3 +8,5 @@ bin/output
 *.o
 
 *.a
+
+.DS_Store

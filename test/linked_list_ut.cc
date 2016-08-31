@@ -12,10 +12,16 @@ class LinkedList : public ::testing::Test {
     test_list = NULL;
   }
 
-  DNode* test_list = CreateDNode();
+  DLinkedList* test_list = CreateDLinkedList();
 };
 // Tesing list / node creation
-TEST_F(LinkedList, List_creation) { ASSERT_TRUE(test_list); }
+TEST_F(LinkedList, List_creation) {
+  ASSERT_NE(test_list, nullptr);
+  ASSERT_EQ(test_list->head, nullptr);
+  ASSERT_EQ(test_list->tail, nullptr);
+  ASSERT_EQ(test_list->current, nullptr);
+  ASSERT_EQ(test_list->size, 0);
+}
 
 // NODES Nedd to be DELETED
 TEST_F(LinkedList, Node_creation) {
@@ -23,14 +29,12 @@ TEST_F(LinkedList, Node_creation) {
   DNode* test_node = CreateDNode();
 
   // Creation of nodes
-  // ASSERT_TRUE(test_node);
-
   ASSERT_NE(test_node, nullptr);
   ASSERT_EQ(test_node->data, 0);
   ASSERT_EQ(test_node->prev, nullptr);
   ASSERT_EQ(test_node->next, nullptr);
 
-  // free(test_node);
+  free(test_node);
   test_node = NULL;
 }
 
@@ -63,4 +67,9 @@ TEST_F(LinkedList, Node_data_ssignment_and_linking) {
   test_node = NULL;
   test_node_prev = NULL;
   test_node_next = NULL;
+}
+
+TEST_F(LinkedList, appanding_to_the_list) {
+  // Creation if the data
+  // addNode(test_list);
 }

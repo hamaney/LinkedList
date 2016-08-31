@@ -123,8 +123,8 @@ UT_FILES_BASENAME	:=$(basename $(UT_SRC_FILES))
 UT_PROJ_OBJ_FILES	:=$(patsubst %$(UT_FILES_NAMETAG),%$(OBJ_EXT),$(UT_FILES_BASENAME))
 # -------------------------------------------------------------------- BUILDING-
 # ---------------------------------------------- OUTPUT - MAIN TARGET 
-.PHONY: ALL
-ALL:$(OUTPUT_NAME) $(UT_FILES_BASENAME)
+.PHONY: all
+all:$(OUTPUT_NAME) $(UT_FILES_BASENAME)
 
 .PHONY: app
 app: $(OUTPUT_NAME)
@@ -176,13 +176,13 @@ gtest_main.o :
 
 gtest.a : gtest-all.o
 	mkdir -p $(PROJ_LIBS_ROOT_DIR)
-	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)	
-	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
+	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)	
+	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
 
 gtest_main.a : gtest-all.o gtest_main.o
 	mkdir -p $(PROJ_LIBS_ROOT_DIR)
-	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)	
-	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
+	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)	
+	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
 
 # ------------------------------------------------------ Proj Linking
 $(OUTPUT_NAME):$(PROJ_OBJ_FILES)

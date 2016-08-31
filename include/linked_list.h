@@ -31,7 +31,12 @@ struct DLinkedList {
 };
 
 DLinkedList* CreateDLinkedList(void);
+/** PRIVATE **/
+
 DNode* CreateDNode(void);
+DNode* addNode(DLinkedList* list);  // return pointer to the new node which is
+                                    // the list tail
+
 /*DNodePtr CreateDList(int);
 
 void RemoveDNode(DNodePtr, int);

@@ -37,7 +37,6 @@ DNode *CreateDNode(void) {
   return new_DNode;
 }
 
-
 DNode *AddDnode(DLinkedList *list) {
   // Check if input is null
   if (!list) {
@@ -48,7 +47,7 @@ DNode *AddDnode(DLinkedList *list) {
   DNode *new_DNode = CreateDNode();
 
   // Place link the node
-  // Check whether the list has no nodes (uninitilized)
+  // Check whether the list has no nodes (uninitialized)
   if (!list->head) {
     list->head = new_DNode;
     list->tail = new_DNode;
@@ -64,10 +63,11 @@ DNode *AddDnode(DLinkedList *list) {
   list->size++;
   return list->tail;
 }
+DNode *addNode(DLinkedList *lsit) { return lsit->tail; }
 /*
  DNode* CreateDList(int number_of_DNodes) {
   if (!number_of_DNodes) {
-    printf("Erorr creating List! Please enter a positive integer\n");
+    printf("Error creating List! Please enter a positive integer\n");
     return NULL;
   } else {
     DNode* list_head = CreateaDNode();
@@ -97,7 +97,7 @@ void RemoveDNode(DNode* starting_node, int offset) {
   }
   // only node
   if (isOneDNode(starting_node)) {
-    printf("Erorr! can not delete a list of one node");
+    printf("Error! can not delete a list of one node");
   } else if (isHead(starting_node) && !offset) {
     RemoveDListHead(starting_node);
   } else {
