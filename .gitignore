@@ -1,1 +1,9 @@
 .DS_Store
+
+.vscode/.browse.VC.db
+
+.vscode/.browse.VC.db-shm
+
+.vscode/.browse.VC.db-wal
+
+.vscode/.browse.VC.db
