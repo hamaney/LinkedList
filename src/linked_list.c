@@ -22,6 +22,7 @@ DLinkedList *CreateDLinkedList(void) {
 
   return new_list;
 }
+DNode *AddDNode(DLinkedList *list) {
   // Check if input is null
   if (!list) {
     printf("Error! adding a Doubly Linked List Node!");
@@ -88,7 +89,7 @@ void GenerateDLinkedListForTesting(DLinkedList *list, int size) {
   }
 
   for (int count = 0; count < size; count++) {
-    addDNode(list);
+    AddDNode(list);
     list->tail->data = count;
   }
 }

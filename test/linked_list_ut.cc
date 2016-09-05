@@ -74,7 +74,7 @@ TEST_F(LinkedList, Node_data_ssignment_and_linking_to_other_node) {
 
 TEST_F(LinkedList, appanding_to_an_empty_list) {
   // Assgine to cuurent test
-  addDNode(list);
+  AddDNode(list);
 
   ASSERT_NE(list->head, DNode_nullptr);
   ASSERT_NE(list->tail, DNode_nullptr);
@@ -84,12 +84,12 @@ TEST_F(LinkedList, appanding_to_an_empty_list) {
 
 TEST_F(LinkedList, appanding_to_nonempty_list) {
   // full list
-  addDNode(list);
+  AddDNode(list);
   // extract it data
   DNode* original_list_tail = list->tail;
   int original_list_size = list->size;
 
-  addDNode(list);
+  AddDNode(list);
 
   ASSERT_EQ(list->tail, (original_list_tail)->next);
   ASSERT_EQ(list->tail->prev, original_list_tail);
