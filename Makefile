@@ -1,3 +1,6 @@
+define DBG
+    @echo *** $(1) ***
+endef
 ################################################################################
 OUTPUT_NAME		:=output
 EXEC_EXT		:=
@@ -124,13 +127,17 @@ UT_PROJ_OBJ_FILES	:=$(patsubst %$(UT_FILES_NAMETAG),%$(OBJ_EXT),$(UT_FILES_BASEN
 # -------------------------------------------------------------------- BUILDING-
 # ---------------------------------------------- OUTPUT - MAIN TARGET 
 .PHONY: all
-all:$(OUTPUT_NAME) $(UT_FILES_BASENAME)
+all:$(OUTPUT_NAME) $(UT_FILES_BASENAME) runapp runtest
 
 .PHONY: app
 app: $(OUTPUT_NAME)
 
 .PHONY: test
 test: $(UT_FILES_BASENAME)
+
+#for NetBeans default test target name
+.PHONY: build-tests
+build-tests: $(UT_FILES_BASENAME)
 
 .PHONY : testvar 
 testvar:	
@@ -167,46 +174,53 @@ linked_list_ut.o: 			\
 	linked_list_ut.cc
 # --------------------------------------------------- GTESTLIBS PREPS
 gtest-all.o :
+	@echo --------------------------------------------------------* Creating $@ *-
 	mkdir -p $(PROJ_OBJS_ROOT_DIR)
 	$(PROJ_CXX) $(GT_CXX_FLAGS) $(GT_INC_FLAGS) -c $(GT_SRCS_ROOT_DIR)/gtest-all.cc -o $(PROJ_OBJS_ROOT_DIR)/$@
 
 gtest_main.o :
+	@echo --------------------------------------------------------* Creating $@ *-
 	mkdir -p $(PROJ_OBJS_ROOT_DIR)
 	$(PROJ_CXX) $(GT_CXX_FLAGS) $(GT_INC_FLAGS) -c $(GT_SRCS_ROOT_DIR)/gtest_main.cc -o $(PROJ_OBJS_ROOT_DIR)/$@
 
-gtest.a : gtest-all.o
-	mkdir -p $(PROJ_LIBS_ROOT_DIR)
+#gtest.a : gtest-all.o
+	#@echo --------------------------------------------------------* Creating $@ *-
+	#mkdir -p $(PROJ_LIBS_ROOT_DIR)
 	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)	
-	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
+	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
 
-gtest_main.a : gtest-all.o gtest_main.o
+gtest_main.a : gtest-all.o gtest_main.o 
+	@echo --------------------------------------------------------* Creating $@ *-
 	mkdir -p $(PROJ_LIBS_ROOT_DIR)
-	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)	
-	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
+	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,gtest-all.o gtest_main.o)
+
+	$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$^)
+	#$(AR) $(ARFLAGS) $(PROJ_LIBS_ROOT_DIR)/$@ $^
 
 # ------------------------------------------------------ Proj Linking
-$(OUTPUT_NAME):$(PROJ_OBJ_FILES)
+$(OUTPUT_NAME): $(PROJ_OBJ_FILES)
+	@echo --------------------------------------------------------* Creating $@ *-
 	mkdir -p $(PROJ_EXEC_ROOT_DIR) 
 	$(PROJ_CXX) $(PROJ_OBJ_FILES_WITH_DIR) -o $(PROJ_EXEC_ROOT_DIR)/$@
-
+	@echo ========================================================* DONE Stage 1-
 # -------------------------------------------------------- UT Linking
-$(UT_FILES_BASENAME):$(UT_OBJ_FILES) $(UT_PROJ_OBJ_FILES) gtest_main.a
-	@echo ---* UT_FILE_BASENAME $@ *----------------------------------------
+$(UT_FILES_BASENAME): $(UT_PROJ_OBJ_FILES) $(UT_OBJ_FILES)  gtest_main.a
+	@echo --------------------------------------------------------* Creating $@ *-
 	mkdir -p $(UT_EXEC_ROOT_DIR)
 	$(PROJ_CXX) $(GT_CXX_FLAGS) -lpthread $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$(UT_OBJ_FILES)) $(addprefix $(PROJ_OBJS_ROOT_DIR)/,$(UT_PROJ_OBJ_FILES)) $(GT_LIB_GTESTMAIN_FILE) -o $(UT_EXEC_ROOT_DIR)/$@
-	@echo -------------------------------------------------------------DONE-
+	@echo ========================================================* DONE Stage 2 -
 
 # --------------------------------------------- OBJ Buliding Patterns
 %$(OBJ_EXT):%$(PROJ_SRC_EXT)
-	@echo ---* PRO_OBJ $@ *-------------------------------------------------
+	@echo --------------------------------------------------------* Creating PROJ_OBJ $@ *-
 	mkdir -p $(PROJ_OBJS_ROOT_DIR)
-	$(PROJ_CXX) $(PROJ_CXX_FLAGS) -c $< -o $(PROJ_OBJS_ROOT_DIR)/$@
-	@echo ------------------------------------------------------------------ 
+	$(PROJ_CXX) $(PROJ_CXX_FLAGS) -c $< -o $(PROJ_OBJS_ROOT_DIR)/$@ 
 
 # ---------------------------------------------- UT Buliding Patterns
-$(UT_OBJ_FILES):%$(OBJ_EXT):%$(GT_SRC_EXT)
-	@echo ---* UT_PRO_OBJ $@ *---------------------------------------------- 
+$(UT_OBJ_FILES):%$(OBJ_EXT):%$(GT_SRC_EXT) 
+	@echo --------------------------------------------------------* Creating UT_PROJ_OBJ $@ *-
 	mkdir -p $(PROJ_OBJS_ROOT_DIR)
 	$(PROJ_CXX) $(PROJ_CXX_FLAGS) $(GT_CXX_FLAGS) $(GT_INCLUDE_FLAGS)\
 	-c $< -o $(PROJ_OBJS_ROOT_DIR)/$@
-	@echo ------------------------------------------------------------------ 
+	
+

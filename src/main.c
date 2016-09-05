@@ -4,7 +4,8 @@
 #include "include/linked_list.h"
 
 int main() {
-  printf("======RUNING MAIN.c");
+  DLinkedList* list = CreateDLinkedList();
+  GenerateDLinkedListForTesting(list, 10);
+  PrintListValues(list);
   return 0;
-
 }
