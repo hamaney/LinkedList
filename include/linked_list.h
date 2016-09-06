@@ -34,12 +34,12 @@ DLinkedList* CreateDLinkedList(void);
 DNode* AddDNode(DLinkedList* list);  // return pointer to the new node which is
                                      // the list tail
 void PrintListValues(DLinkedList* list);
-void DeallocateDLinkedListDNodes(DLinkedList* list);
+void FreeDLinkedListNodes(DLinkedList* list);
 /** PRIVATE **/
 DNode* CreateDNode(void);
 // For testing only
 void GenerateDLinkedListForTesting(DLinkedList* list, int size);
-
+bool isEmptyDLinkedList(DLinkedList* list);
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 /*DNodePtr CreateDList(int);

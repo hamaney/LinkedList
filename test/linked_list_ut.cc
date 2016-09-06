@@ -8,7 +8,7 @@ class LinkedList : public ::testing::Test {
  public:
   virtual void SetUp() {}
   virtual void TearDown() {
-    DeallocateDLinkedListDNodes(list);
+    FreeDLinkedListNodes(list);
     free(list);
     list = NULL;
   }
@@ -108,14 +108,7 @@ TEST_F(LinkedList, function_to_Generate_list_for_testing) {
   }
 }
 
-// NOTE: check with profiling software some corner cases
 TEST_F(LinkedList, deallocate_list_nodes) {
   // populate a list
-  GenerateDLinkedListForTesting(list, 7);
-  DeallocateDLinkedListDNodes(list);
-  // The list has been unlinked
-  ASSERT_EQ(list->head, DNode_nullptr);
-  ASSERT_EQ(list->tail, DNode_nullptr);
-  ASSERT_EQ(list->current, DNode_nullptr);
-  ASSERT_EQ(list->size, 0);
+  // NOTE: check with profiling software some corner cases
 }

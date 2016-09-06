@@ -48,29 +48,52 @@ DNode *AddDNode(DLinkedList *list) {
   return list->tail;
 }
 void PrintListValues(DLinkedList *list) {
-  DNode *current = list->head;
+  if (isEmptyDLinkedList(list)) {
+    printf("Doubly Linked List has no nodes!\n");
+  } else {
+    DNode *current = list->head;
 
-  while (current) {
-    if (current == list->head) {
-      printf("[%d -> ", current->data);
-    } else if (current->next) {
-      printf("%d -> ", current->data);
-    } else {
-      printf("%d]", current->data);
+    while (current) {
+      if (current == list->head) {
+        printf("[%d -> ", current->data);
+      } else if (current->next) {
+        printf("%d -> ", current->data);
+      } else {
+        printf("%d]", current->data);
+      }
+      current = current->next;
     }
-    current = current->next;
+    printf("\n");
   }
-  printf("\n");
 }
 
-void DeallocateDLinkedListDNodes(DLinkedList *list) {}
+// list will = null after this
+void FreeDLinkedListNodes(DLinkedList *list) {
+  if (!list) {
+    printf("Error! input is a null pointer\n");
+
+  } else {
+    DNode *current_node = list->head;
+    while (current_node) {
+      DNode *next_node = current_node->next;
+      free(current_node);
+      current_node = next_node;
+    }
+    list->head = NULL;
+    list->current = NULL;
+    list->tail = NULL;
+    list->size = 0;
+  }
+
+  return;
+}
 /** PRIVATE **/
 DNode *CreateDNode(void) {
   DNode *new_DNode;
   new_DNode = (DNode *)malloc(sizeof(DNode));
 
   if (!new_DNode) {
-    printf("Error! creating a Doubly Linked List Node!");
+    printf("Error! creating a Doubly Linked List Node!\n");
     return NULL;
   }
   new_DNode->next = NULL;
@@ -82,10 +105,10 @@ DNode *CreateDNode(void) {
 void GenerateDLinkedListForTesting(DLinkedList *list, int size) {
   // Check input
   if (!list) {
-    printf("ERROR! input is not valid. list pointer is null or size < 0");
+    printf("ERROR! input is not valid. list pointer is null or size < 0\n");
   }
   if (list->head) {
-    printf("ERROR! the Doubly Linked List is not empty");
+    printf("ERROR! the Doubly Linked List is not empty\n");
   }
 
   for (int count = 0; count < size; count++) {
@@ -94,6 +117,14 @@ void GenerateDLinkedListForTesting(DLinkedList *list, int size) {
   }
 }
 
+bool isEmptyDLinkedList(DLinkedList *list) {
+  if ((list->head == list->tail) && (!list->head) && (!list->current) &&
+      (list->size == 0)) {
+    return true;
+  } else {
+    return false;
+  }
+}
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 // void DallocDLinkedListElements(DLinkedList *list) {}

@@ -4,8 +4,18 @@
 #include "include/linked_list.h"
 
 int main() {
-  DLinkedList* list = CreateDLinkedList();
-  GenerateDLinkedListForTesting(list, 10);
-  PrintListValues(list);
+  // the loop is to check whether there is a mem leak
+  unsigned x = 1;  // change to big number if testing the mem leak
+  while (x) {
+    DLinkedList* list = CreateDLinkedList();
+    GenerateDLinkedListForTesting(list, 7);
+    PrintListValues(list);
+    FreeDLinkedListNodes(list);
+    PrintListValues(list);
+    free(list);
+    list = NULL;
+    x--;
+  }
+
   return 0;
 }
