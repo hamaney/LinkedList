@@ -17,5 +17,11 @@ int main() {
     x--;
   }
 
+  DLinkedList* list = CreateDLinkedList();
+  GenerateDLinkedListForTesting(list, 7);
+  PrintListValues(list);
+  AddDNodeAtHead(list);
+  PrintListValues(list);
+
   return 0;
 }

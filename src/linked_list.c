@@ -47,6 +47,28 @@ DNode *AddDNode(DLinkedList *list) {
   list->size++;
   return list->tail;
 }
+
+DNode *AddDNodeAtHead(DLinkedList *list) {  // Check if input is null
+  if (!list) {
+    printf("Error! input is a null pointer\n");
+    return NULL;
+  }
+  DNode *new_DNode = CreateDNode();
+  // Place link the node
+  // Check whether the list has no nodes (uninitialized)
+  if (isEmptyDLinkedList(list)) {
+    return AddDNode(list);
+  }
+  // link to the end of the list
+  else {
+    new_DNode->next = list->head;
+    list->head->prev = new_DNode;
+    list->head = new_DNode;
+    list->size++;
+    return list->head;
+  }
+}
+
 void PrintListValues(DLinkedList *list) {
   if (isEmptyDLinkedList(list)) {
     printf("Doubly Linked List has no nodes!\n");

@@ -33,6 +33,7 @@ struct DLinkedList {
 DLinkedList* CreateDLinkedList(void);
 DNode* AddDNode(DLinkedList* list);  // return pointer to the new node which is
                                      // the list tail
+DNode* AddDNodeAtHead(DLinkedList* list);
 void PrintListValues(DLinkedList* list);
 void FreeDLinkedListNodes(DLinkedList* list);
 /** PRIVATE **/
