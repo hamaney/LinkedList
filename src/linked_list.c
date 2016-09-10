@@ -12,20 +12,118 @@ DLinkedList *CreateDLinkedList(void) {
   DLinkedList *new_list = (DLinkedList *)malloc(sizeof(DLinkedList));
 
   if (!new_list) {
-    printf("Error! creating a Doubly linked list!");
-    return NULL;
+    PrintErrorMallocRetunsNullForList();
+  } else {
+    new_list->head = NULL;
+    new_list->current = NULL;
+    new_list->tail = NULL;
+    new_list->size = 0;
   }
-  new_list->head = NULL;
-  new_list->current = NULL;
-  new_list->tail = NULL;
-  new_list->size = 0;
-
   return new_list;
 }
+void PrintListValues(DLinkedList *list) {
+  if (isEmptyDLinkedList(list)) {
+    PrintErrorListHasNoNodes();
+  } else {
+    DNode *current = list->head;
+
+    while (current) {
+      if (current == list->head) {
+        printf("[%d -> ", current->data);
+      } else if (current->next) {
+        printf("%d -> ", current->data);
+      } else {
+        printf("%d]", current->data);
+      }
+      current = current->next;
+    }
+    printf("\n");
+  }
+}
+void FreeDLinkedListNodes(DLinkedList *list) {
+  if (!list) {
+    // PrintErrorNullList();
+
+  } else {
+    DNode *current_node = list->head;
+    while (current_node) {
+      DNode *next_node = current_node->next;
+      free(current_node);
+      current_node = next_node;
+    }
+    list->head = NULL;
+    list->current = NULL;
+    list->tail = NULL;
+    list->size = 0;
+  }
+
+  return;
+}
+DNode *InsertNewDNodeAt(DLinkedList *list, size_t index) {
+  // Original          [A Dnode]-[B   DNode]
+  // New structure     [A Dnode]-[New DNode]-[B DNode]
+
+  DNode *new_node = NULL;
+  // Chekc he integraty of input
+  if (!list) {
+    PrintErrorNullList();
+  }
+
+  else if (!isIndexInRange(list->size, index)) {
+    PrintErrorIndexNotInRangeOfList();
+  } else if (!index) {
+    new_node = AddDNodeAtHead(list);
+  } else if (index == (list->size - 1)) {
+    AddDNode(list);
+  } else {
+    DNode *new_node = CreateDNode();
+
+    DNode *B_node = getDnodeAtIndex(list, index);
+    DNode *A_node = B_node->prev;
+    new_node->prev = A_node;
+    new_node->next = B_node;
+    B_node->prev = new_node;
+    A_node->next = new_node;
+    list->size++;
+  }
+  return new_node;
+}
+DNode *getDnodeAtIndex(DLinkedList *list, size_t index) {
+  DNode *current = NULL;
+
+  if (!list) {
+    PrintErrorNullList();
+  } else if (!isIndexInRange(list->size, index)) {
+    PrintErrorIndexNotInRangeOfList();
+  } else {
+    current = list->head;
+    while (index) {
+      current = current->next;
+      index--;
+    }
+  }
+  return current;
+}
+/** PRIVATE **/
+
+DNode *CreateDNode(void) {
+  DNode *new_DNode;
+  new_DNode = (DNode *)malloc(sizeof(DNode));
+
+  if (!new_DNode) {
+    PrintErrorMallocRetunsNullForNode();
+  } else {
+    new_DNode->next = NULL;
+    new_DNode->prev = NULL;
+    new_DNode->data = 0;
+  }
+  return new_DNode;
+}
+
 DNode *AddDNode(DLinkedList *list) {
   // Check if input is null
   if (!list) {
-    printf("Error! adding a Doubly Linked List Node!");
+    PrintErrorNullList();
     return NULL;
   }
   DNode *new_DNode = CreateDNode();
@@ -47,10 +145,9 @@ DNode *AddDNode(DLinkedList *list) {
   list->size++;
   return list->tail;
 }
-
 DNode *AddDNodeAtHead(DLinkedList *list) {  // Check if input is null
   if (!list) {
-    printf("Error! input is a null pointer\n");
+    PrintErrorNullList();
     return NULL;
   }
   DNode *new_DNode = CreateDNode();
@@ -68,83 +165,70 @@ DNode *AddDNodeAtHead(DLinkedList *list) {  // Check if input is null
     return list->head;
   }
 }
-
-void PrintListValues(DLinkedList *list) {
-  if (isEmptyDLinkedList(list)) {
-    printf("Doubly Linked List has no nodes!\n");
-  } else {
-    DNode *current = list->head;
-
-    while (current) {
-      if (current == list->head) {
-        printf("[%d -> ", current->data);
-      } else if (current->next) {
-        printf("%d -> ", current->data);
-      } else {
-        printf("%d]", current->data);
-      }
-      current = current->next;
-    }
-    printf("\n");
-  }
-}
-
-// list will = null after this
-void FreeDLinkedListNodes(DLinkedList *list) {
-  if (!list) {
-    printf("Error! input is a null pointer\n");
-
-  } else {
-    DNode *current_node = list->head;
-    while (current_node) {
-      DNode *next_node = current_node->next;
-      free(current_node);
-      current_node = next_node;
-    }
-    list->head = NULL;
-    list->current = NULL;
-    list->tail = NULL;
-    list->size = 0;
-  }
-
-  return;
-}
-/** PRIVATE **/
-DNode *CreateDNode(void) {
-  DNode *new_DNode;
-  new_DNode = (DNode *)malloc(sizeof(DNode));
-
-  if (!new_DNode) {
-    printf("Error! creating a Doubly Linked List Node!\n");
-    return NULL;
-  }
-  new_DNode->next = NULL;
-  new_DNode->prev = NULL;
-  new_DNode->data = 0;
-  return new_DNode;
-}
-// testing only
-void GenerateDLinkedListForTesting(DLinkedList *list, int size) {
+void GenerateDLinkedListForTesting(DLinkedList *list, size_t size) {
   // Check input
   if (!list) {
-    printf("ERROR! input is not valid. list pointer is null or size < 0\n");
-  }
-  if (list->head) {
-    printf("ERROR! the Doubly Linked List is not empty\n");
-  }
+    PrintErrorNullList();
 
-  for (int count = 0; count < size; count++) {
-    AddDNode(list);
-    list->tail->data = count;
+  } else if (list->head && list->size) {
+    PrintErrorListHasNodes();
+  } else {
+    for (int count = 0; count < size; count++) {
+      AddDNode(list);
+      list->tail->data = count;
+    }
   }
+  return;
 }
-
 bool isEmptyDLinkedList(DLinkedList *list) {
   if ((list->head == list->tail) && (!list->head) && (!list->current) &&
       (list->size == 0)) {
     return true;
   } else {
     return false;
+  }
+}
+bool isIndexInRange(size_t list_size, size_t index) {
+  if (index >= list_size) {
+    return false;
+  } else {
+    return true;
+  }
+}
+// Error MASGS
+void PrintErrorNullList(void) {
+  if (debug_prints) {
+    printf("ERROR! List pointer is null\n");
+  }
+}
+void PrintErrorNullNode(void) {
+  if (debug_prints) {
+    printf("ERROR! Node pointer is null\n");
+  }
+}
+void PrintErrorMallocRetunsNullForList(void) {
+  if (debug_prints) {
+    printf("ERROR! Can not allocate memory to create a list\n");
+  }
+}
+void PrintErrorMallocRetunsNullForNode(void) {
+  if (debug_prints) {
+    printf("ERROR! Can not allocate memory to create a node\n");
+  }
+}
+void PrintErrorListHasNoNodes(void) {
+  if (debug_prints) {
+    printf("ERROR! List has no nodes\n");
+  }
+}
+void PrintErrorListHasNodes(void) {
+  if (debug_prints) {
+    printf("ERROR! List has nodes\n");
+  }
+}
+void PrintErrorIndexNotInRangeOfList(void) {
+  if (debug_prints) {
+    printf("ERROR! The index is out of the list range \n");
   }
 }
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -195,7 +279,7 @@ void RemoveDNode(DNode* starting_node, int offset) {
 
   // free(current); is this a BUG
   // current = NULL;
-  //   ====================================================================AYOUB
+  // ====================================================================AYOUB
 }
 
 void RemoveDListHead(DNode* list_head) {
