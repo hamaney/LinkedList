@@ -8,7 +8,7 @@
 /*
 TODO:
 - GenerateDLinkedListForTesting -> GenerateDNoesForList()
-- AddDNode() -> AddDNodeAtTail()
+-
 
 */
 
@@ -38,36 +38,47 @@ struct DLinkedList {
   size_t size;
 };
 
+/** PUBLIC ------------------------------------------------------------------**/
+
 DLinkedList* CreateDLinkedList(void);
-void PrintListValues(DLinkedList* list);
-void FreeDLinkedListNodes(DLinkedList* list);
-DNode* InsertNewDNodeAt(DLinkedList* list, size_t index);
-DNode* getDnodeAtIndex(DLinkedList* list, size_t index);
-/** PRIVATE **/
-DNode* CreateDNode(void);
-DNode* AddDNode(DLinkedList* list);
+
 DNode* AddDNodeAtHead(DLinkedList* list);
+
+DNode* InsertNewDNodeAt(DLinkedList* list, size_t index);
+
+DNode* AddDNodeAtTail(DLinkedList* list);
+
+DNode* getDnodeAtIndex(DLinkedList* list, size_t index);
+
+void PrintListValues(DLinkedList* list);
+
+void FreeDLinkedListNodes(DLinkedList* list);
+
+/** PRIVATE -----------------------------------------------------------------**/
+
+// NODES -----------------------------------------------------------------------
+DNode* CreateDNode(void);
+
+// LISTS -----------------------------------------------------------------------
 void GenerateDLinkedListForTesting(DLinkedList* list, size_t size);
+
 bool isEmptyDLinkedList(DLinkedList* list);
+
 bool isIndexInRange(size_t list_size, size_t index);
 
-// Error MASGS
+// Error MASGS -----------------------------------------------------------------
 void PrintErrorNullList(void);
+
 void PrintErrorNullNode(void);
+
 void PrintErrorMallocRetunsNullForList(void);
+
 void PrintErrorMallocRetunsNullForNode(void);
+
 void PrintErrorListHasNoNodes(void);
+
 void PrintErrorListHasNodes(void);
+
 void PrintErrorIndexNotInRangeOfList(void);
 
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-// DNodePtr CreateDList(int);
-// void RemoveDNode(DNodePtr, int);
-// void RemoveDListHead(DNodePtr);
-// void PrintDListDebug(DNodePtr);
-// bool isHead(DNodePtr);
-// bool isTail(DNodePtr);
-// bool isOneDNode(DNodePtr);
-// int ListSize(DNodePtr);
 #endif /* linked_list_hpp */

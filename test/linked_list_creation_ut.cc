@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 extern "C" {
 #include "include/linked_list.h"
-#include "src/linked_list.c"
+//#include "src/linked_list.c"
 }
 
 class LinkedListCreation : public ::testing::Test {
